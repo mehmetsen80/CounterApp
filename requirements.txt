@@ -1,0 +1,9 @@
+Flask==2.3.3
+Werkzeug==2.3.7
+flask-restx==1.1.0
+flask-jwt-extended==4.5.3
+psutil==5.9.5
+requests==2.31.0
+cryptography==41.0.4
+PyJWT==2.8.0
+waitress==2.1.2

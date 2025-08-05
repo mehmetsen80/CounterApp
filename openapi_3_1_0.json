@@ -1,0 +1,675 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CounterApp API",
+    "version": "1.0.0",
+    "description": "A Flask-based counter application with Eureka service discovery and Keycloak authentication",
+    "contact": {
+      "name": "Linqra Platform",
+      "url": "https://github.com/mehmetsen80/Linqra"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7777/r/counter-app",
+      "description": "Development server (via gateway)"
+    },
+    {
+      "url": "https://localhost:5001/r/counter-app",
+      "description": "Development server (direct)"
+    }
+  ],
+  "paths": {
+    "/counter/api/v1/count": {
+      "get": {
+        "summary": "Get the current count with metadata",
+        "description": "Get the current count with metadata (requires authentication)",
+        "operationId": "get_count",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "X509Certificate": []
+          }
+        ],
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/": {
+      "get": {
+        "summary": "Get the current count with metadata",
+        "description": "Get the current count with metadata (requires authentication)",
+        "operationId": "get_count",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          },
+          {
+            "X509Certificate": []
+          }
+        ],
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/details": {
+      "get": {
+        "summary": "Get detailed counter information including metadata",
+        "description": "Get detailed counter information including metadata",
+        "operationId": "get_counter_details",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved counter details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/CounterDetails"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/details/": {
+      "get": {
+        "summary": "Get detailed counter information including metadata",
+        "description": "Get detailed counter information including metadata",
+        "operationId": "get_counter_details",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved counter details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/CounterDetails"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/increment": {
+      "get": {
+        "summary": "Increment the counter by 1 and return the new value",
+        "description": "Increment the counter by 1 and return the new value",
+        "operationId": "increment_count",
+        "responses": {
+          "200": {
+            "description": "Counter incremented successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/increment/": {
+      "get": {
+        "summary": "Increment the counter by 1 and return the new value",
+        "description": "Increment the counter by 1 and return the new value",
+        "operationId": "increment_count",
+        "responses": {
+          "200": {
+            "description": "Counter incremented successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/protected": {
+      "get": {
+        "summary": "Get count with JWT authentication and Keycloak role validation",
+        "description": "Get count with JWT authentication and Keycloak role validation",
+        "operationId": "get_protected_count",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved count with JWT authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ProtectedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT token required or invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permissions - missing required Keycloak roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/protected/": {
+      "get": {
+        "summary": "Get count with JWT authentication and Keycloak role validation",
+        "description": "Get count with JWT authentication and Keycloak role validation",
+        "operationId": "get_protected_count",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved count with JWT authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/ProtectedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "JWT token required or invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient permissions - missing required Keycloak roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/reset": {
+      "get": {
+        "summary": "Reset the counter to 0 and return the reset value",
+        "description": "Reset the counter to 0 and return the reset value",
+        "operationId": "reset_count",
+        "responses": {
+          "200": {
+            "description": "Counter reset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/counter/api/v1/count/reset/": {
+      "get": {
+        "summary": "Reset the counter to 0 and return the reset value",
+        "description": "Reset the counter to 0 and return the reset value",
+        "operationId": "reset_count",
+        "responses": {
+          "200": {
+            "description": "Counter reset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Counter"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "counter"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Get comprehensive health status matching Java implementation",
+        "description": "Get comprehensive health status matching Java implementation",
+        "operationId": "get_health",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HealthStatus"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service is unhealthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HealthStatus"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/": {
+      "get": {
+        "summary": "Get comprehensive health status matching Java implementation",
+        "description": "Get comprehensive health status matching Java implementation",
+        "operationId": "get_health",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HealthStatus"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service is unhealthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HealthStatus"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/home": {
+      "get": {
+        "summary": "Get application home page information",
+        "description": "Get application home page information",
+        "operationId": "get_home",
+        "responses": {
+          "200": {
+            "description": "Application information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HomeInfo"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/home/": {
+      "get": {
+        "summary": "Get application home page information",
+        "description": "Get application home page information",
+        "operationId": "get_home",
+        "responses": {
+          "200": {
+            "description": "Application information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/HomeInfo"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/openapi/openapi.json": {
+      "get": {
+        "summary": "Serve OpenAPI 3",
+        "description": "Get OpenAPI 3.1.0 specification\n1.0 specification",
+        "operationId": "get_openapi_spec",
+        "responses": {
+          "200": {
+            "description": "OpenAPI specification retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OpenAPISpec"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "OpenAPI specification file not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid JSON in OpenAPI specification file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    },
+    "/openapi/openapi.json/": {
+      "get": {
+        "summary": "Serve OpenAPI 3",
+        "description": "Get OpenAPI 3.1.0 specification\n1.0 specification",
+        "operationId": "get_openapi_spec",
+        "responses": {
+          "200": {
+            "description": "OpenAPI specification retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/OpenAPISpec"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "OpenAPI specification file not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid JSON in OpenAPI specification file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "default"
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token from Keycloak"
+      },
+      "X509Certificate": {
+        "type": "mutualTLS",
+        "description": "X.509 client certificate"
+      }
+    },
+    "schemas": {
+      "HomeInfo": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Application name"
+          },
+          "status": {
+            "type": "string",
+            "description": "Application status"
+          },
+          "version": {
+            "type": "string",
+            "description": "Application version"
+          },
+          "environment": {
+            "type": "string",
+            "description": "Current environment"
+          }
+        },
+        "type": "object"
+      },
+      "Counter": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Current counter value"
+          },
+          "status": {
+            "type": "string",
+            "description": "Operation status"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Counter metadata"
+          }
+        },
+        "type": "object"
+      },
+      "Error": {
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        },
+        "type": "object"
+      },
+      "CounterDetails": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Operation status"
+          },
+          "counter": {
+            "type": "object",
+            "description": "Detailed counter information"
+          }
+        },
+        "type": "object"
+      },
+      "ProtectedResponse": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Current counter value"
+          },
+          "status": {
+            "type": "string",
+            "description": "Operation status"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Counter metadata"
+          },
+          "auth_type": {
+            "type": "string",
+            "description": "Authentication type used"
+          }
+        },
+        "type": "object"
+      },
+      "HealthStatus": {
+        "properties": {
+          "serviceId": {
+            "type": "string",
+            "description": "Service identifier"
+          },
+          "status": {
+            "type": "string",
+            "description": "Health status (UP/DOWN)"
+          },
+          "uptime": {
+            "type": "string",
+            "description": "Service uptime in human readable format"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Current timestamp"
+          },
+          "metrics": {
+            "type": "object",
+            "description": "System metrics including CPU, memory, and response time"
+          }
+        },
+        "type": "object"
+      },
+      "OpenAPISpec": {
+        "properties": {
+          "openapi": {
+            "type": "string",
+            "description": "OpenAPI version"
+          },
+          "info": {
+            "type": "object",
+            "description": "API information"
+          },
+          "paths": {
+            "type": "object",
+            "description": "API paths"
+          },
+          "components": {
+            "type": "object",
+            "description": "API components"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "counter",
+      "description": "Counter operations"
+    },
+    {
+      "name": "health",
+      "description": "Health check operations"
+    }
+  ]
+}

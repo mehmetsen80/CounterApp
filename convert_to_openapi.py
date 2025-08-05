@@ -81,8 +81,22 @@ def convert_to_openapi_3_1(swagger_2_0_spec):
         ]
     }
     
-    # Convert paths
-    for path, path_item in swagger_2_0_spec.get("paths", {}).items():
+    # Convert paths, filtering out duplicates with trailing slashes
+    paths_to_process = []
+    for path in swagger_2_0_spec.get("paths", {}).keys():
+        # If this path ends with '/', check if there's a version without it
+        if path.endswith('/'):
+            path_without_slash = path.rstrip('/')
+            # Only add this path if there's no version without the trailing slash
+            if path_without_slash not in swagger_2_0_spec.get("paths", {}):
+                paths_to_process.append(path)
+        else:
+            # Always add paths without trailing slashes
+            paths_to_process.append(path)
+    
+    # Process the filtered paths
+    for path in paths_to_process:
+        path_item = swagger_2_0_spec.get("paths", {}).get(path, {})
         openapi_3_1["paths"][path] = {}
         
         for method, operation in path_item.items():

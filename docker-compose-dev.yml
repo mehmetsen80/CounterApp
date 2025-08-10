@@ -1,0 +1,61 @@
+name: linqra
+networks:
+  linqra-network:
+    external: true
+
+services:
+  counter-app:
+    build:
+      context: .
+      dockerfile: ./.kube/counterapp/Dockerfile
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
+      PORT: 5001
+      CONTEXT_PATH: /r/counter-app
+      # SSL Configuration
+      SSL_ENABLED: "true"
+      MUTUAL_TLS_ENABLED: "false"
+      # Eureka Configuration
+      EUREKA_ENABLED: "true"
+      EUREKA_CLIENT_URL: discovery-service
+      EUREKA_CLIENT_PORT: 8761
+      EUREKA_CLIENT_PATH: /eureka/eureka/
+      EUREKA_INSTANCE_URL: counter-app
+      APP_NAME: counter-app
+      SECURE_PORT_ENABLED: "true"
+      NON_SECURE_PORT_ENABLED: "false"
+      # SSL/TLS Configuration
+      CLIENT_TRUST_STORE: /app/keys/client-truststore.jks
+      CLIENT_TRUST_STORE_PASSWORD: 123456
+      CLIENT_KEY_STORE: /app/keys/counter-app-keystore-container.jks
+      CLIENT_KEY_STORE_PASSWORD: 123456
+      CLIENT_ALIAS_NAME: counter-app-container
+      # Security Configuration
+      JWT_SECRET_KEY: your-jwt-secret-key-here
+      KEYCLOAK_GATEWAY_URL: keycloak-service
+      KEYCLOAK_GATEWAY_PORT: 8281
+      JWT_ISSUER_URI: http://keycloak-service:8281/realms/Linqra
+      JWT_JWK_SET_URI: http://keycloak-service:8281/realms/Linqra/protocol/openid-connect/certs
+      # Service Integration
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/eureka/
+      KEYCLOAK_AUTH_SERVER_URL: http://keycloak-service:8281/auth/
+      KEYCLOAK_REALM: Linqra
+      KEYCLOAK_CLIENT_ID: counter-app
+      KEYCLOAK_CLIENT_SECRET: your-secret-here
+      GATEWAY_SERVICE_URL: api-gateway-service
+      # Certificate file paths
+      CA_BUNDLE_PATH: /app/keys/certs/ca-bundle.pem
+      CA_CERT_PATH: /app/keys/certs/ca-cert.pem
+      CA_KEY_PATH: /app/keys/certs/ca-key.pem
+      CLIENT_CERT_PATH: /app/keys/certs/client-cert.pem
+      CLIENT_KEY_PATH: /app/keys/certs/client-key.pem
+      SERVER_CERT_PATH: /app/keys/certs/server-cert.pem
+      SERVER_KEY_PATH: /app/keys/certs/server-key.pem
+    deploy:
+      replicas: 1
+    networks:
+      - linqra-network
+    volumes:
+      - ./:/app/counter-app
+      - ./keys:/app/keys 
